@@ -40,18 +40,19 @@
       <main class="mdl-layout">
           <div class="mdl-cell mdl-cell--2-col"></div>
           <div class="mdl-cell mdl-cell--8-col mdl-typography--text-center">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input class="mdl-textfield__input" type="text" id="name">
-              <label class="mdl-textfield__label" for="name">Name</label>
-            </div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="birthday">
-            <label class="mdl-textfield__label" for="birthday">Birthday</label>
-            </div>
-            <br>
-            <span>How important is physical attraction to you?</span>
+          
             <form id="question-form">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input name = "name" class="mdl-textfield__input" type="text" id="name">
+                <label class="mdl-textfield__label" for="name">Name</label>
+              </div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input name = "birthday" class="mdl-textfield__input" type="text" id="birthday">
+              </div>
+              <br>
+              <span>How important is physical attraction to you?</span>
             <input
+            name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -62,6 +63,7 @@
             <br />
             <span>How important is family to you?</span>
             <input
+            name = "scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -72,6 +74,7 @@
             <br />
             <span>How important is space to you?</span>
             <input
+              name = "scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -82,6 +85,7 @@
             <br>
             <span>How important is personality to you?</span>
             <input
+              name = "scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -92,6 +96,7 @@
             <br />
             <span>How important is being in control to you?</span>
             <input
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -99,8 +104,10 @@
               value="5"
               tabindex="0"
             />
-            <span>How important is it that you are in control of plans?</span>
+            <br>
+            <span>How important is fitness to you</span>
             <input
+              name = "scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -111,6 +118,7 @@
             <br>
             <span>How badly do you want to be in a relationship?</span>
             <input
+              name = "scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -119,8 +127,10 @@
               tabindex="0"
             />
             <br>
+              
             <span>How important is Zodiac chemistry to you?</span>
             <input
+              name = "scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -128,9 +138,11 @@
               value="5"
               tabindex="0"
             />
+            <br>
+
             <span>How important is work to you?</span>
-  
             <input
+              name = "scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -138,8 +150,10 @@
               value="5"
               tabindex="0"
             />
-            
+            <br>
+            <span>How important is fun to you?</span>
             <input
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -147,6 +161,8 @@
               value="5"
               tabindex="0"
             />
+            <br>
+
             <button type= "submit" class="mdl-button mdl-js-button mdl-button--raised">
               Submit
             </button>
@@ -155,32 +171,42 @@
         </form>
           <div class="mdl-cell mdl-cell--2-col"></div>
         </div>
-
       </main>
     </div>
     <script>
-       const qustionForm = document.getElementById("question-form");
+       const questionForm = document.getElementById("question-form");
       questionForm.addEventListener("submit", evt => {
         evt.preventDefault();
-        const formInputs = reservationForm.querySelectorAll("input");
-        const newReservation = {};
+        const formInputs = questionForm.querySelectorAll("input");
+        const newPerson = {};
+        const scores = []
         for (let input of formInputs) {
-          newReservation[input.name] = input.value;
-        }
-        fetch("/api/reservations", {
-          method: "POST",
-          body: JSON.stringify(newReservation),
-          headers: {
-            "Content-Type": "application/json"
+          if (input.name !== "scores") {
+            newPerson[input.name] = input.value;
           }
-        })
-          .then(res => res.json())
-          .then(data =>
-            console.log("successfully created a new reservation :: ", data)
-          )
-          .catch(err =>
-            console.log("error trying to create reservation :: ", err)
-          );
+          if (input.name === "scores") {
+            scores.push(input.value); 
+            if(scores.length === 10) {
+              newPerson['scores'] = scores;
+            }
+          } 
+        }
+     
+        console.log(newPerson)
+        // fetch("/api/reservations", {
+        //   method: "POST",
+        //   body: JSON.stringify(newReservation),
+        //   headers: {
+        //     "Content-Type": "application/json"
+        //   }
+        // })
+        //   .then(res => res.json())
+        //   .then(data =>
+        //     console.log("successfully created a new reservation :: ", data)
+        //   )
+        //   .catch(err =>
+        //     console.log("error trying to create reservation :: ", err)
+        //   );
       });
     </script>
   </body>
