@@ -163,9 +163,9 @@
             />
             <br>
 
-            <button type= "submit" class="mdl-button mdl-js-button mdl-button--raised">
+            <a href= "results" type= "submit" class="mdl-button mdl-js-button mdl-button--raised">
               Submit
-            </button>
+            </a>
           </div>
           
         </form>
@@ -185,7 +185,8 @@
             newPerson[input.name] = input.value;
           }
           if (input.name === "scores") {
-            scores.push(input.value); 
+            let a = parseInt(input.value)
+            scores.push(a); 
             if(scores.length === 10) {
               newPerson['scores'] = scores;
             }
@@ -193,20 +194,20 @@
         }
      
         console.log(newPerson)
-        // fetch("/api/reservations", {
-        //   method: "POST",
-        //   body: JSON.stringify(newReservation),
-        //   headers: {
-        //     "Content-Type": "application/json"
-        //   }
-        // })
-        //   .then(res => res.json())
-        //   .then(data =>
-        //     console.log("successfully created a new reservation :: ", data)
-        //   )
-        //   .catch(err =>
-        //     console.log("error trying to create reservation :: ", err)
-        //   );
+        fetch("/api/friends", {
+          method: "POST",
+          body: JSON.stringify(newPerson),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(res => res.json())
+          .then(data =>
+            console.log("successfully added a new person to list :: ", data)
+          )
+          .catch(err =>
+            console.log("error trying to create reservation :: ", err)
+          );
       });
     </script>
   </body>
