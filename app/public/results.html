@@ -100,5 +100,24 @@
         </div>
       </main>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        fetch("/api/friends", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(res => res.json())
+          .then(data => {
+            for (let i = 0; i < data.length; i++) {
+              console.log(data[i]);
+            }
+          })
+          .catch(err =>
+            console.log("error trying to create reservation :: ", err)
+          );
+      });
+    </script>
   </body>
 </html>
