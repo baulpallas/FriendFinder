@@ -162,10 +162,9 @@
               tabindex="0"
             />
             <br>
+            <div class="btnholder"></div>
 
-            <a href= "results" type= "submit" class="mdl-button mdl-js-button mdl-button--raised">
-              Submit
-            </a>
+            <button type= "submit" class="mdl-button mdl-js-button mdl-button--raised">Submit</button>
           </div>
           
         </form>
@@ -192,7 +191,7 @@
             }
           } 
         }
-     
+    
         console.log(newPerson)
         fetch("/api/friends", {
           method: "POST",
@@ -202,8 +201,13 @@
           }
         })
           .then(res => res.json())
-          .then(data =>
-            console.log("successfully added a new person to list :: ", data)
+          .then(data => {
+            window.location.href = "results";
+
+          }
+            
+    
+
           )
           .catch(err =>
             console.log("error trying to create reservation :: ", err)
