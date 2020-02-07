@@ -38,21 +38,34 @@
         </nav>
       </div>
       <main class="mdl-layout">
-          <div class="mdl-cell mdl-cell--2-col"></div>
-          <div class="mdl-cell mdl-cell--8-col mdl-typography--text-center">
-          
-            <form id="question-form">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input name = "name" class="mdl-textfield__input" type="text" id="name">
-                <label class="mdl-textfield__label" for="name">Name</label>
-              </div>
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input name = "birthday" class="mdl-textfield__input" type="text" id="birthday">
-              </div>
-              <br>
-              <span>How important is physical attraction to you?</span>
+        <div class="mdl-cell mdl-cell--2-col"></div>
+        <div class="mdl-cell mdl-cell--8-col mdl-typography--text-center">
+          <form id="question-form">
+            <div
+              class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+            >
+              <input
+                name="name"
+                class="mdl-textfield__input"
+                type="text"
+                id="name"
+              />
+              <label class="mdl-textfield__label" for="name">Name</label>
+            </div>
+            <div
+              class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+            >
+              <input
+                name="birthday"
+                class="mdl-textfield__input"
+                type="text"
+                id="birthday"
+              />
+            </div>
+            <br />
+            <span>How important is physical attraction to you?</span>
             <input
-            name="scores"
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -63,7 +76,7 @@
             <br />
             <span>How important is family to you?</span>
             <input
-            name = "scores"
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -74,7 +87,7 @@
             <br />
             <span>How important is space to you?</span>
             <input
-              name = "scores"
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -82,10 +95,10 @@
               value="5"
               tabindex="0"
             />
-            <br>
+            <br />
             <span>How important is personality to you?</span>
             <input
-              name = "scores"
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -104,10 +117,10 @@
               value="5"
               tabindex="0"
             />
-            <br>
+            <br />
             <span>How important is fitness to you</span>
             <input
-              name = "scores"
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -115,10 +128,10 @@
               value="5"
               tabindex="0"
             />
-            <br>
+            <br />
             <span>How badly do you want to be in a relationship?</span>
             <input
-              name = "scores"
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -126,11 +139,11 @@
               value="5"
               tabindex="0"
             />
-            <br>
-              
+            <br />
+
             <span>How important is Zodiac chemistry to you?</span>
             <input
-              name = "scores"
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -138,11 +151,11 @@
               value="5"
               tabindex="0"
             />
-            <br>
+            <br />
 
             <span>How important is work to you?</span>
             <input
-              name = "scores"
+              name="scores"
               class="mdl-slider mdl-js-slider"
               type="range"
               min="0"
@@ -150,7 +163,7 @@
               value="5"
               tabindex="0"
             />
-            <br>
+            <br />
             <span>How important is fun to you?</span>
             <input
               name="scores"
@@ -161,38 +174,41 @@
               value="5"
               tabindex="0"
             />
-            <br>
-            <div class="btnholder"></div>
-
-            <button type= "submit" class="mdl-button mdl-js-button mdl-button--raised">Submit</button>
-          </div>
-          
-        </form>
+            <br />
+            <div class="btnholder">
+              <button
+                type="submit"
+                class="mdl-button mdl-js-button mdl-button--raised"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
           <div class="mdl-cell mdl-cell--2-col"></div>
         </div>
       </main>
     </div>
     <script>
-       const questionForm = document.getElementById("question-form");
+      const questionForm = document.getElementById("question-form");
       questionForm.addEventListener("submit", evt => {
         evt.preventDefault();
         const formInputs = questionForm.querySelectorAll("input");
         const newPerson = {};
-        const scores = []
+        const scores = [];
         for (let input of formInputs) {
           if (input.name !== "scores") {
             newPerson[input.name] = input.value;
           }
           if (input.name === "scores") {
-            let a = parseInt(input.value)
-            scores.push(a); 
-            if(scores.length === 10) {
-              newPerson['scores'] = scores;
+            let a = parseInt(input.value);
+            scores.push(a);
+            if (scores.length === 10) {
+              newPerson["scores"] = scores;
             }
-          } 
+          }
         }
-    
-        console.log(newPerson)
+
+        console.log(newPerson);
         fetch("/api/friends", {
           method: "POST",
           body: JSON.stringify(newPerson),
@@ -202,17 +218,42 @@
         })
           .then(res => res.json())
           .then(data => {
-            window.location.href = "results";
-
-          }
-            
-    
-
-          )
+            console.log(newPerson);
+            fetch("/api/friends", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+              .then(res => res.json())
+              .then(data => {
+                let diffArray = [];
+                let newPersonArray = newPerson.scores;
+                for (let i = 0; i < data.length; i++) {
+                  let dbArray = data[i].scores;
+                  let difference = dbArray.map(function(item, index) {
+                    return Math.abs(item - newPersonArray[index]);
+                  });
+                  console.log(difference);
+                  let totalDiff = difference.reduce((x, y) => x + y);
+                  diffArray.push(totalDiff);
+                }
+                console.log(diffArray);
+                diffArray.pop();
+                console.log(diffArray);
+                let answer = Math.min(...diffArray);
+                console.log(answer);
+              })
+              .catch(err =>
+                console.log("error trying to create reservation :: ", err)
+              );
+          })
           .catch(err =>
             console.log("error trying to create reservation :: ", err)
           );
       });
+
+      // window.location.href = "results";
     </script>
   </body>
 </html>
